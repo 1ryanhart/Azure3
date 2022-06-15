@@ -18,7 +18,7 @@ stages:
     pool:
       vmImage: 'Ubuntu-16.04' 
     steps:
-    - scrips:
+    - scripts:
       set -e
       cd $(Build.SourcesDirectory)/starter-code/terraform/
       terraform init
