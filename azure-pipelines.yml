@@ -13,7 +13,7 @@ stages:
   jobs:
   - job: Build
     pool:
-      name: myLinuxVM
+      name: myAgentPool
       vmImage: $(vmImageName)
     steps:
     # Needed for Terraform VM deployment
