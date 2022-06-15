@@ -11,7 +11,7 @@ variables:
 stages:
 - stage: Provision
   displayName: 'Terraform provissioning'
-  dependsOn: Build
+  # dependsOn: Build
   jobs:
   - job: Provision
     displayName: 'Provisioning resources'
