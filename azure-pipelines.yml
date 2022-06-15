@@ -9,6 +9,24 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
+- stage: Provision
+  displayName: 'Terraform provissioning'
+  dependsOn: Build
+  jobs:
+  - job: Provision
+    displayName: 'Provisioning resources'
+    pool:
+      vmImage: 'Ubuntu-16.04' 
+    steps:
+    - scrips:
+      set -e
+      cd $(Build.SourcesDirectory)/starter-code/terraform/
+      terraform init
+      terraform apply -auto-approve
+
+    name: 'RunTerraform'
+    displayName: 'Run Terraform'
+
 - stage: Build
   jobs:
   - job: Build
