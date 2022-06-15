@@ -16,6 +16,17 @@ stages:
   jobs:
     - job: TerraformIACJob
       displayName: TerraformIAC job
+      # Needed for Terraform VM deployment
+      - task: InstallSSHKey@0
+        inputs:
+          knownHostsEntry: 'KNOWN_HOSTS_STRING'
+          sshPublicKey: $(terraform-ssh-pub)
+          sshKeySecureFile: 'id_rsa'
+      - task: Bash@3
+        displayName: Copy ssh rsa pub file for vm.tf
+        inputs:
+          targetType: 'inline'
+          script: cp $(System.DefaultWorkingDirectory)/id_rsa.pub ~/.ssh
       steps:
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
         displayName: 'Terraform : azurerm'
@@ -25,7 +36,6 @@ stages:
           backendAzureRmStorageAccountName: mystorage198570
           backendAzureRmContainerName: blob198570
           backendAzureRmKey: tf/terraform.tfstate
-      steps:
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
         displayName: 'Terraform : azurerm'
         inputs:
