@@ -16,31 +16,24 @@ stages:
   jobs:
     - job: TerraformIACJob
       displayName: TerraformIAC job
-      # Needed for Terraform VM deployment
-      - task: InstallSSHKey@0
-        inputs:
-          knownHostsEntry: 'KNOWN_HOSTS_STRING'
-          sshPublicKey: $(terraform-ssh-pub)
-          sshKeySecureFile: 'id_rsa'
-      - task: Bash@3
-        displayName: Copy ssh rsa pub file for vm.tf
-        inputs:
-          targetType: 'inline'
-          script: cp $(System.DefaultWorkingDirectory)/id_rsa.pub ~/.ssh
       steps:
-      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+      - checkout: self
+        clean: true
+      - task: TerraformInstaller@0
+        displayName: Install Terraform latest
+      - task: TerraformTaskV3@3
         displayName: 'Terraform : azurerm'
         inputs:
-          backendServiceArm: 'UdacityDS - 18 (9f539354-ac81-4e3d-9082-b222d918d1bd)'
+          backendServiceArm: 74640713-f1cf-4110-97ac-8272f2147c6d
           backendAzureRmResourceGroupName: Azuredevops
           backendAzureRmStorageAccountName: mystorage198570
           backendAzureRmContainerName: blob198570
           backendAzureRmKey: tf/terraform.tfstate
-      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+      - task: TerraformTaskV3@3
         displayName: 'Terraform : azurerm'
         inputs:
           command: apply
-          environmentServiceNameAzureRM: 'UdacityDS - 18 (9f539354-ac81-4e3d-9082-b222d918d1bd)'
+          environmentServiceNameAzureRM: 74640713-f1cf-4110-97ac-8272f2147c6d
 
 - stage: Build
   jobs:
