@@ -15,6 +15,9 @@ stages:
     vmImage: 'ubuntu-latest'
   jobs:
     - job: TerraformIACJob
+      pool:
+        name: myAgentPool
+        vmImage: $(vmImageName)
       displayName: TerraformIAC job
       steps:
       - checkout: self
