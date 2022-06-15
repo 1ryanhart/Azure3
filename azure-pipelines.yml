@@ -1,4 +1,12 @@
 name: Azure Pipelines
+
+trigger:
+- master
+
+variables:
+  vmImageName: 'ubuntu-latest'
+
+
 variables:
   python.version: '3.7.6'
 stages:
@@ -6,14 +14,15 @@ stages:
   jobs:
   - job: Build
     pool:
-      name: Hosted Ubuntu 1604
+      name: myLinuxVM
+      vmImage: $(vmImageName)
     steps:
     # Needed for Terraform VM deployment
-    # - task: InstallSSHKey@0
-    #   inputs:
-    #     knownHostsEntry: 'KNOWN_HOSTS_STRING'
-    #     sshPublicKey: 'PUBLIC_KEY'
-    #     sshKeySecureFile: 'id_rsa'
+    - task: InstallSSHKey@0
+      inputs:
+        knownHostsEntry: 'KNOWN_HOSTS_STRING'
+        sshPublicKey: 'PUBLIC_KEY'
+        sshKeySecureFile: 'id_rsa'
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:
@@ -29,7 +38,6 @@ stages:
   - deployment: FakeRestAPI
     pool:
       vmImage: 'Ubuntu-16.04'
-      name: myAgentPool
     environment: 'TEST'
     strategy:
       runOnce:
