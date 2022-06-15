@@ -19,10 +19,10 @@ stages:
       vmImage: 'Ubuntu-16.04' 
     steps:
     - script: |
-      set -e
-      cd $(Build.SourcesDirectory)/starter-code/terraform/
-      terraform init
-      terraform apply -auto-approve
+        set -e
+        cd $(Build.SourcesDirectory)/starter-code/terraform/
+        terraform init
+        terraform apply -auto-approve
 
     name: 'RunTerraform'
     displayName: 'Run Terraform'
