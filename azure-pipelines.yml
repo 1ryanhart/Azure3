@@ -22,8 +22,12 @@ stages:
       steps:
       - checkout: self
         clean: true
-      - task: TerraformInstaller@0
+
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
         displayName: Install Terraform latest
+        inputs:
+          terraformVersion: "0.14.7"
+        
       - task: TerraformTaskV3@3
         displayName: 'Terraform : azurerm'
         inputs:
