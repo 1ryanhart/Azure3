@@ -9,23 +9,28 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Provision
-  displayName: 'Terraform provissioning'
-  # dependsOn: Build
+- stage: TerraformIAC
+  displayName: TerraformIAC
+  pool:
+    vmImage: 'ubuntu-latest'
   jobs:
-  - job: Provision
-    displayName: 'Provisioning resources'
-    pool:
-      vmImage: 'Ubuntu-16.04' 
-    steps:
-    - script: |
-        set -e
-        cd $(Build.SourcesDirectory)/starter-code/terraform/
-        terraform init
-        terraform apply -auto-approve
-
-      name: 'RunTerraform'
-      displayName: 'Run Terraform'
+    - job: TerraformIACJob
+      displayName: TerraformIAC job
+      steps:
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+        displayName: 'Terraform : azurerm'
+        inputs:
+          backendServiceArm: 'UdacityDS - 18 (9f539354-ac81-4e3d-9082-b222d918d1bd)'
+          backendAzureRmResourceGroupName: Azuredevops
+          backendAzureRmStorageAccountName: mystorage198570
+          backendAzureRmContainerName: blob198570
+          backendAzureRmKey: tf/terraform.tfstate
+      steps:
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+        displayName: 'Terraform : azurerm'
+        inputs:
+          command: apply
+          environmentServiceNameAzureRM: 'UdacityDS - 18 (9f539354-ac81-4e3d-9082-b222d918d1bd)'
 
 - stage: Build
   jobs:
