@@ -24,8 +24,8 @@ stages:
         terraform init
         terraform apply -auto-approve
 
-    name: 'RunTerraform'
-    displayName: 'Run Terraform'
+      name: 'RunTerraform'
+      displayName: 'Run Terraform'
 
 - stage: Build
   jobs:
