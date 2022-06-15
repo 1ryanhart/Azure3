@@ -29,6 +29,7 @@ stages:
   - deployment: FakeRestAPI
     pool:
       vmImage: 'Ubuntu-16.04'
+      name: myAgentPool
     environment: 'TEST'
     strategy:
       runOnce:
