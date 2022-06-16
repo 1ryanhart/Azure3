@@ -19,11 +19,6 @@ stages:
   - job: TerraformIaCCIJob
     displayName: TerraformIaCCI - CI Job
     steps:
-    - task: DownloadSecureFile@1
-      name: variable_definitions
-      displayName: Download terraform.tfvars
-      inputs:
-        secureFile: 'terraform.tfvars' 
     # Needed for Terraform VM deployment
     - task: InstallSSHKey@0
       inputs:
