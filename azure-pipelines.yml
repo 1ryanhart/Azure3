@@ -37,7 +37,7 @@ stages:
     - task: CmdLine@2
       inputs:
         script: | 
-          export PATH=$PATH:/home/devopsagent/myagent/_work/_temp/
+          export PATH=$PATH:/home/devopsagent/myagent/_work/_temp
           echo $PATH
 
     - task: TerraformInstaller@0
