@@ -12,8 +12,9 @@ variables:
 stages:
 - stage: TerraformIaCCI
   displayName: TerraformIaC - CI
+  workingDirectory: '$(Build.SourcesDirectory)
   pool:
-    # vmImage: 'ubuntu-latest'
+    vmImage: 'ubuntu-latest'
     name: myAgentPool
   jobs:
   - job: TerraformIaCCIJob
