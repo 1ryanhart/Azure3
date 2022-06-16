@@ -37,6 +37,7 @@ stages:
     - task: CmdLine@2
       inputs:
         script: | 
+          sudo apt-get install zip unzip
           export PATH=$PATH:/home/devopsagent/myagent/_work/_temp
           export PATH=$PATH:/usr/bin/unzip
           echo $PATH
