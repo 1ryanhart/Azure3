@@ -15,7 +15,7 @@ stages:
   - job: TerraformIaCCIJob
     displayName: TerraformIaCCI - CI Job
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-18.04'
       name: myAgentPool
     steps:
     # Needed for Terraform VM deployment
