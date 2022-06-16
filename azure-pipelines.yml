@@ -18,6 +18,9 @@ stages:
   jobs:
   - job: TerraformIaCCIJob
     displayName: TerraformIaCCI - CI Job
+    pool:
+      vmImage: 'ubuntu-latest'
+      name: myAgentPool
     steps:
     # Needed for Terraform VM deployment
     - task: InstallSSHKey@0
@@ -43,7 +46,7 @@ stages:
       displayName: 'terraform init'
       inputs:
         command: init
-        workingDirectory: 'ProjectStarterResources/terraform'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendType: azurerm
         backendServiceArm: 'UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
         backendAzureRmResourceGroupLocation: eastus
