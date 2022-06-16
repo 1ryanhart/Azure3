@@ -22,7 +22,7 @@ stages:
     # Needed for Terraform VM deployment
     - task: InstallSSHKey@0
       inputs:
-        knownHostsEntry: 'KNOWN_HOSTS_STRING'
+        knownHostsEntry: 'default'
         sshPublicKey: $(sshPublicKey)
         sshKeySecureFile: 'id_rsa'
 
