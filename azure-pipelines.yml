@@ -7,7 +7,7 @@ trigger:
 variables:
   python.version: '3.7.6'
   vmImageName: 'ubuntu-latest'
-  sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCoUZeq0Mj1W4CZUUj+TOSDWBan0SSOrJ7u0t/GZejx4vEbqWpOmYDm/KjPjGKkpSd7wF9B7XgaMkfKZ9UxrX1BzVsCwhmAX6WGYrh1MsD92hJW/2kZrVd1VGkOWxBh8ar3Sl3G2EO/HJ/LvtUEzsUDz1Gn6yjusy5L5H/efvOu6bynZJAeuRWoefRxM96BDhbhMBBvSmzKXBNn1/cmNKr64uauMACZpDa9LmTOLjrycW5awY2QzZLNDirK6v2PlQeMDcFH85IpOkTP0CjczZu1CwqdQ+5WEo3Z17NY7XaQtouaGOEMK8Pnpf0XpndBLJ0uWfchjHYe2HQkV2t2+n8+MzjA9dh5omLHwim7j5BuBhqVs1m+kbHAozY2NxwJwXKUwgi243JXck1tLJwloWyP/VPYbikhaZ+ACSvM46oKUkRUwL2aisGXCktcLj8SL91QZ30Eu98uZAJPPkzonMjbxkMkgUGyEoYaLP9U9/OAeCkFxSoHocEU4gsBAoK5Igr688Yphxv0xs5OvVtxmI5zYsRll0A5IefD+kjdR4CXyvfG6eVYzv48MIVPOUu+pSk4tudDVOkxR6V3m40q/KerPa2ICRKPBiCfAdxN6lZXrKvJ0TBDKYCWhUlhucy00Y/MAvEMsiiT/a2hXTKvOZNU0jlwSD73LCaXoapjknAKw== devopsagent@myLinuxVM'
+  sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDd9EMOQLleyPuwgA0GALsGvH8yohNxmpptOeO3tlrRdHFV7OKa9Ja044+KmjhSE0bBRxcpB6izKMX9Eu9EGvhzg7zEqB5TBYcQnqDsFtUTSemEVo2wqoIpJPdZGXla7XyM9rDD9f2FteLvvocznwjqBZip7SeRHwaXOfTDInIgcUOPHIomR/4O99HXjJc5NUyZ2GnUsZ0zMpxlDZgy5XT4NJKeJmN9ZngjJV0elCL2vOJJeipejEHTNWRLmD5Rlnrtyn07QdieGkQES97SlHbymtQkCODIUD65V0h9EJRpufsCiTuq3JrvNEUyxKPArNQyM4Y0wkcu1QTWNcuZK1HF odl_user@cc-6e08fb4e-5845979bbf-xhq2f'
 
 stages:
 - stage: TerraformIaCCI
@@ -22,7 +22,7 @@ stages:
     # Needed for Terraform VM deployment
     - task: InstallSSHKey@0
       inputs:
-        knownHostsEntry: 'default'
+        knownHostsEntry: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
         sshPublicKey: $(sshPublicKey)
         sshKeySecureFile: 'id_rsa'
     - task: Bash@3
