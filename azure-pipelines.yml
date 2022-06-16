@@ -12,7 +12,6 @@ variables:
 stages:
 - stage: TerraformIaCCI
   displayName: TerraformIaC - CI
-  workingDirectory: '$(System.DefaultWorkingDirectory)'
   pool:
     vmImage: 'ubuntu-latest'
     name: myAgentPool
