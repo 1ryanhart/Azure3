@@ -12,7 +12,7 @@ stages:
 - stage: TerraformIaCCI
   displayName: TerraformIaC - CI
   pool:
-    vmImage: 'ubuntu-latest'
+    vmImage: 'ubunto-20.04'
     name: myAgentPool
   jobs:
   - job: TerraformIaCCIJob
