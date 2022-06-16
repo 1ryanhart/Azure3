@@ -29,11 +29,8 @@ stages:
       inputs:
         targetType: 'inline'
         script: cp $(System.DefaultWorkingDirectory)/id_rsa.pub ~/.ssh
-    # Step 1: Install Terraform
-    # - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
-    #   displayName: 'Install Terraform'
-    #   inputs:
-    #     terraformVersion: '0.14.3'
+
+    #STEP 1 : install terraform
     - task: CmdLine@2
       inputs:
         script: | 
@@ -47,14 +44,12 @@ stages:
       inputs:
         terraformVersion: latest
 
-
-
     # Step 2: Initialise workspace using terraform init
     - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
       displayName: 'terraform init'
       inputs:
         command: init
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         backendType: azurerm
         backendServiceArm: 'UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
         backendAzureRmResourceGroupLocation: eastus
