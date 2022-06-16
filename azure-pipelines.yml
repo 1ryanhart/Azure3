@@ -18,7 +18,7 @@ stages:
       vmImage: 'ubuntu-18.04'
       name: myAgentPool
     steps:
-    # Needed for Terraform VM deployment
+    ######### Needed for Terraform VM deployment
     - task: InstallSSHKey@0
       inputs:
         knownHostsEntry: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
@@ -30,7 +30,7 @@ stages:
         targetType: 'inline'
         script: cp $(System.DefaultWorkingDirectory)/id_rsa.pub ~/.ssh
 
-    #STEP 1 : install terraform
+    ######### Step 2: install terraform
     - task: CmdLine@2
       inputs:
         script: | 
@@ -44,7 +44,7 @@ stages:
       inputs:
         terraformVersion: latest
 
-    # Step 2: Initialise workspace using terraform init
+    ######### Step 2: Initialise workspace using terraform init
     - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
       displayName: 'terraform init'
       inputs:
@@ -58,15 +58,16 @@ stages:
         backendAzureRmContainerName: blob198570
         backendAzureRmKey: tf/terraform.tfstate
 
-    # Step 3. Run the terraform plan
+    ######### Step 3. Run the terraform plan
     - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
       displayName: 'terraform plan'
       inputs:
         command: plan
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         environmentServiceName: 'UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
+
         commandOptions: -out project3cicd
-    # Step 4. Run the terraform apply
+    ########## Step 4. Run the terraform apply
     - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
       displayName: 'terraform apply'
       inputs:
@@ -105,6 +106,7 @@ stages:
   - deployment: FakeRestAPI
     pool:
       vmImage: 'Ubuntu-16.04'
+      name: myAgentPool
     environment: 'TEST'
     strategy:
       runOnce:
@@ -117,27 +119,27 @@ stages:
               appName: ''
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
-  # - deployment: VMDeploy
-  #   displayName: NAME
-  #   environment:
-  #     name:  ENVIRONMENT NAME
-  #     resourceType: VirtualMachine
-  #     tags: TAG NAME
-  #   strategy:
-  #     runOnce:
-  #       deploy:
-  #         steps:
-  #         - task: Bash@3
-  #           inputs:
-  #             targetType: 'inline'
-  #             script: |
-  #               #! /bin/bash
+  - deployment: VMDeploy
+    displayName: NAME
+    environment:
+      name:  ENVIRONMENT NAME
+      resourceType: VirtualMachine
+      tags: TAG NAME
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                #! /bin/bash
                 
-  #               sudo apt-get upgrade -y
-  #               sudo apt-get install python3-pip -y
-  #               sudo apt-get install unzip -y
-  #               sudo apt-get install -y chromium-browser
-  #               pip3 install selenium
-  #               export PATH=$PATH:some/path
+                sudo apt-get upgrade -y
+                sudo apt-get install python3-pip -y
+                sudo apt-get install unzip -y
+                sudo apt-get install -y chromium-browser
+                pip3 install selenium
+                export PATH=$PATH:/usr/lib/chromium-browser/
 
 
