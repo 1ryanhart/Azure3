@@ -31,10 +31,17 @@ stages:
         targetType: 'inline'
         script: cp $(System.DefaultWorkingDirectory)/id_rsa.pub ~/.ssh
     # Step 1: Install Terraform
-    - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
-      displayName: 'Install Terraform 0.15.3'
+    # - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+    #   displayName: 'Install Terraform 0.15.3'
+    #   inputs:
+    #     terraformVersion: '0.15.3'
+
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+      displayName: 'Install terraform'
       inputs:
-        terraformVersion: '0.15.3'
+        terraformVersion: '0.12.25'
+
+
     # Step 2: Initialise workspace using terraform init
     - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
       displayName: 'terraform init'
