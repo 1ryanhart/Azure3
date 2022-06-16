@@ -9,36 +9,104 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: TerraformIAC
-  displayName: TerraformIAC
+# - stage: TerraformIAC
+#   displayName: TerraformIAC
+#   pool:
+#     vmImage: 'ubuntu-latest'
+#   jobs:
+#     - job: TerraformIACJob
+#       pool:
+#         name: myAgentPool
+#         vmImage: $(vmImageName)
+#       displayName: TerraformIAC job
+#       steps:
+#       - checkout: self
+#         clean: true
+        
+#       - task: TerraformInstaller@0
+#         displayName: Install Terraform latest
+        
+#       - task: TerraformTaskV3@3
+#         displayName: 'Terraform : azurerm'
+#         inputs:
+#           backendServiceArm: 74640713-f1cf-4110-97ac-8272f2147c6d
+#           backendAzureRmResourceGroupName: Azuredevops
+#           backendAzureRmStorageAccountName: mystorage198570
+#           backendAzureRmContainerName: blob198570
+#           backendAzureRmKey: tf/terraform.tfstate
+#       - task: TerraformTaskV3@3
+#         displayName: 'Terraform : azurerm'
+#         inputs:
+#           command: apply
+#           environmentServiceNameAzureRM: 74640713-f1cf-4110-97ac-8272f2147c6d
+
+
+
+- stage: TerraformIaCCI
+  displayName: TerraformIaC - CI
   pool:
     vmImage: 'ubuntu-latest'
   jobs:
-    - job: TerraformIACJob
-      pool:
-        name: myAgentPool
-        vmImage: $(vmImageName)
-      displayName: TerraformIAC job
-      steps:
-      - checkout: self
-        clean: true
-        
-      - task: TerraformInstaller@0
-        displayName: Install Terraform latest
-        
-      - task: TerraformTaskV3@3
-        displayName: 'Terraform : azurerm'
-        inputs:
-          backendServiceArm: 74640713-f1cf-4110-97ac-8272f2147c6d
-          backendAzureRmResourceGroupName: Azuredevops
-          backendAzureRmStorageAccountName: mystorage198570
-          backendAzureRmContainerName: blob198570
-          backendAzureRmKey: tf/terraform.tfstate
-      - task: TerraformTaskV3@3
-        displayName: 'Terraform : azurerm'
-        inputs:
-          command: apply
-          environmentServiceNameAzureRM: 74640713-f1cf-4110-97ac-8272f2147c6d
+  - job: TerraformIaCCIJob
+    displayName: TerraformIaCCI - CI Job
+    steps:
+    # Needed for Terraform VM deployment
+    - task: InstallSSHKey@0
+      inputs:
+        knownHostsEntry: 'KNOWN_HOSTS_STRING'
+        sshPublicKey: $(terraform-ssh-pub)
+        sshKeySecureFile: 'id_rsa'
+    - task: Bash@3
+      displayName: Copy ssh rsa pub file for vm.tf
+      inputs:
+        targetType: 'inline'
+        script: cp $(System.DefaultWorkingDirectory)/id_rsa.pub ~/.ssh
+    # Step 1: Install Terraform
+    - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+      displayName: 'Install Terraform 0.15.3'
+      inputs:
+        terraformVersion: 0.15.3
+    # Step 2: Initialise workspace using terraform init
+    - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+      displayName: 'terraform init'
+      inputs:
+        command: init
+        workingDirectory: 'ProjectStarterResources/terraform'
+        backendType: azurerm
+        backendServiceArm: UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
+        backendAzureRmResourceGroupLocation: eastus
+        backendAzureRmResourceGroupName: Azuredevops
+        backendAzureRmStorageAccountName: mystorage198570
+        backendAzureRmContainerName: blob198570
+        backendAzureRmKey: tf/terraform.tfstate
+    # Step 3. Validate HCL syntaxt using terraform validate
+    - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+      displayName: 'terraform validate'    
+      inputs:
+        command: validate
+        workingDirectory: 'ProjectStarterResources/terraform'
+    # Step 4. Run the terraform plan
+    - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+      displayName: 'terraform plan'
+      inputs:
+        command: plan
+        workingDirectory: 'ProjectStarterResources/terraform'
+        environmentServiceName: UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
+        commandOptions: -out project3cicd
+    # Step 5. Run the terraform apply
+    - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+      displayName: 'terraform apply'
+      inputs:
+        provider: 'azurerm'
+        command: apply
+        workingDirectory: 'ProjectStarterResources/terraform'
+        environmentServiceName: UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
+        commandOptions: project3cicd
+
+
+
+
+
 
 - stage: Build
   jobs:
