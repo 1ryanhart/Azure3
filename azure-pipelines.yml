@@ -34,7 +34,9 @@ stages:
     #   displayName: 'Install Terraform'
     #   inputs:
     #     terraformVersion: '0.14.3'
-
+    - task: CmdLine@2
+      inputs:
+        script: 'export PATH=$PATH:/home/devopsagent/myagent/_work/_temp/' 
 
     - task: TerraformInstaller@0
       displayName: install terraform
