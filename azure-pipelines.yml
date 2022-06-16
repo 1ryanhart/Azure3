@@ -57,27 +57,22 @@ stages:
         backendAzureRmStorageAccountName: mystorage198570
         backendAzureRmContainerName: blob198570
         backendAzureRmKey: tf/terraform.tfstate
-    # Step 3. Validate HCL syntaxt using terraform validate
-    - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-      displayName: 'terraform validate'    
-      inputs:
-        command: validate
-        workingDirectory: 'ProjectStarterResources/terraform'
-    # Step 4. Run the terraform plan
+
+    # Step 3. Run the terraform plan
     - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
       displayName: 'terraform plan'
       inputs:
         command: plan
-        workingDirectory: 'ProjectStarterResources/terraform'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         environmentServiceName: 'UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
         commandOptions: -out project3cicd
-    # Step 5. Run the terraform apply
+    # Step 4. Run the terraform apply
     - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
       displayName: 'terraform apply'
       inputs:
         provider: 'azurerm'
         command: apply
-        workingDirectory: 'ProjectStarterResources/terraform'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         environmentServiceName: 'UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
         commandOptions: project3cicd
 
