@@ -24,7 +24,7 @@ stages:
       inputs:
         knownHostsEntry: 'default'
         sshPublicKey: $(sshPublicKey)
-        # sshKeySecureFile: 'id_rsa'
+        sshKeySecureFile: 'id_rsa'
 
     # - task: InstallSSHKey@0
     #   inputs:
