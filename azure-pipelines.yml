@@ -11,12 +11,12 @@ variables:
 stages:
 - stage: TerraformIaCCI
   displayName: TerraformIaC - CI
-  pool:
-    vmImage: 'ubunto-20.04'
-    name: myAgentPool
   jobs:
   - job: TerraformIaCCIJob
     displayName: TerraformIaCCI - CI Job
+    pool:
+      vmImage: 'ubuntu-latest'
+      name: myAgentPool
     steps:
     # Needed for Terraform VM deployment
     - task: InstallSSHKey@0
