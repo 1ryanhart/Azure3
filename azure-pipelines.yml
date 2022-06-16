@@ -77,10 +77,6 @@ stages:
         commandOptions: project3cicd
 
 
-
-
-
-
 - stage: Build
   jobs:
   - job: Build
@@ -97,7 +93,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:
-        rootFolderOrFile: 'path/to/fakerestapi'
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/fakerestapi'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
