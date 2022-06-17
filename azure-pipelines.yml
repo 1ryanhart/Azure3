@@ -89,8 +89,11 @@ stages:
       displayName: Install Newman
       inputs:
         script: |
-          sudo apt-get install npm
-          sudo apt install build-essential
+          sudo apt update
+          sudo apt install nodejs npm
+          curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          sudo npm install uuid@7.0.3 --force
           sudo npm install -g newman
           sudo npm install -g newman-reporter-junitfull
         workingDirectory: '$(System.DefaultWorkingDirectory)'
