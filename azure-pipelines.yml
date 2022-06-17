@@ -83,6 +83,9 @@ stages:
   jobs:
   - deployment: UITests
     displayName: 'UI Tests'
+    pool:
+      vmImage: 'ubuntu-18.04'
+      name: myAgentPool
     environment:  'TEST'
     strategy:
       runOnce:
