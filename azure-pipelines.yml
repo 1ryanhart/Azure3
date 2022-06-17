@@ -123,8 +123,8 @@ stages:
                 sudo apt-get install -y chromium-chromedriver
                 pip3 install selenium
                 export PATH=$PATH:/usr/lib/chromium-browser/
-                cd $(Pipeline.Workspace)/drop-selenium
-                unzip -o $(Pipeline.Workspace)/drop-selenium/$(Build.BuildId)-selenium-tests -d .
+                # cd $(Pipeline.Workspace)/drop-selenium
+                # unzip -o $(Pipeline.Workspace)/drop-selenium/$(Build.BuildId)-selenium-tests -d .
           - task: Bash@3
             displayName: 'Run Selenium Tests'
             inputs:
