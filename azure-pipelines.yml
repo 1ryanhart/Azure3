@@ -78,7 +78,7 @@ stages:
         commandOptions: project3cicd
 
 
- stage: Build
+- stage: Build
   jobs:
   - job: Build
     pool:
