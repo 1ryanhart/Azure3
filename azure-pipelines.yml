@@ -89,8 +89,8 @@ stages:
       displayName: Install Newman
       inputs:
         script: |
-          sudo apt-get install -g newman
-          sudo apt-get install -g newman-reporter-junitfull
+          sudo apt-get install newman
+          sudo apt-get install newman-reporter-junitfull
         workingDirectory: '$(System.DefaultWorkingDirectory)'
     - task: CmdLine@2
       displayName: Run Regression Test Suite
