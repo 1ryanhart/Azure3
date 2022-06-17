@@ -111,7 +111,7 @@
 					"raw": "{\r\n    \"age\" : {{age}}\r\n}"
 				},
 				"url": {
-					"raw": "https://dummy.restapiexample.com/api/v1/update/21",
+					"raw": "https://dummy.restapiexample.com/api/v1/update/1",
 					"protocol": "https",
 					"host": [
 						"dummy",
