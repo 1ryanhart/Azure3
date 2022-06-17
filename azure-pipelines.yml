@@ -95,60 +95,62 @@ stages:
       artifact: selenium
 
 - stage: Deployment     
-  displayName: 'UI Tests'
-  pool:
-    vmImage: 'ubuntu-18.04'
-    name: myAgentPool
-  environment:  'TEST'
-  strategy:
-    runOnce:
-      deploy:
-        steps:
-        - download: current
-          displayName: Download selenium
-          artifact: selenium
-        - task: Bash@3
-          inputs:
-            targetType: 'inline'
-            script: |
-              #! /bin/bash
-              
-              sudo apt-get upgrade -y
-              sudo apt-get install python3-pip -y
-              sudo apt-get install unzip -y
-              sudo apt-get install libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev
-              sudo apt-get install -y chromium-browser
-              # python3 -m pip install --upgrade pip
-        - task: Bash@3
-          displayName: Install and setup Chromedriver
-          inputs:
-            targetType: 'inline'
-            script: |
-              #! /bin/bash
-              
-              # Remove previous chromedriver zip file
-              rm chromedriver_linux64.zip
-              
-              # Get the version of Chromedriver selenium tests are written for
-              wget https://chromedriver.storage.googleapis.com/95.0.4638.69/chromedriver_linux64.zip
-              # wget https://chromedriver.storage.googleapis.com/96.0.4664.45/chromedriver_linux64.zip
-              unzip chromedriver_linux64.zip
-              sudo mv chromedriver /usr/bin/chromedriver
-              sudo chown root:root /usr/bin/chromedriver
-              sudo chmod +x /usr/bin/chromedriver
-              pip3 install selenium
-              echo $PWD
-              echo $PATH
-              chromedriver -v
-              # pip install --upgrade pip
-        - task: Bash@3
-          displayName: Run Selenium Tests
-          inputs:
-            targetType: 'inline'
-            script: |
-              python3 /home/skadmin/azagent/_work/1/selenium/login.py > /home/skadmin/azagent/_work/1/selenium/seleniumtestrun.log
-              cat /home/skadmin/azagent/_work/1/selenium/seleniumtestrun.log
-              sudo mv /home/skadmin/azagent/_work/1/selenium/seleniumtestrun.log /var/log
+  jobs:
+  - deployment: UITests
+    displayName: 'UI Tests'
+    pool:
+      vmImage: 'ubuntu-18.04'
+      name: myAgentPool
+    environment:  'TEST'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            displayName: Download selenium
+            artifact: selenium
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                #! /bin/bash
+                
+                sudo apt-get upgrade -y
+                sudo apt-get install python3-pip -y
+                sudo apt-get install unzip -y
+                sudo apt-get install libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev
+                sudo apt-get install -y chromium-browser
+                # python3 -m pip install --upgrade pip
+          - task: Bash@3
+            displayName: Install and setup Chromedriver
+            inputs:
+              targetType: 'inline'
+              script: |
+                #! /bin/bash
+                
+                # Remove previous chromedriver zip file
+                rm chromedriver_linux64.zip
+                
+                # Get the version of Chromedriver selenium tests are written for
+                wget https://chromedriver.storage.googleapis.com/95.0.4638.69/chromedriver_linux64.zip
+                # wget https://chromedriver.storage.googleapis.com/96.0.4664.45/chromedriver_linux64.zip
+                unzip chromedriver_linux64.zip
+                sudo mv chromedriver /usr/bin/chromedriver
+                sudo chown root:root /usr/bin/chromedriver
+                sudo chmod +x /usr/bin/chromedriver
+                pip3 install selenium
+                echo $PWD
+                echo $PATH
+                chromedriver -v
+                # pip install --upgrade pip
+          - task: Bash@3
+            displayName: Run Selenium Tests
+            inputs:
+              targetType: 'inline'
+              script: |
+                python3 /home/skadmin/azagent/_work/1/selenium/login.py > /home/skadmin/azagent/_work/1/selenium/seleniumtestrun.log
+                cat /home/skadmin/azagent/_work/1/selenium/seleniumtestrun.log
+                sudo mv /home/skadmin/azagent/_work/1/selenium/seleniumtestrun.log /var/log
 
 - stage: Run_Tests
   displayName: Run App Tests
