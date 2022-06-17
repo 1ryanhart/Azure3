@@ -94,7 +94,7 @@ stages:
       displayName: 'Upload Selenium File'
       artifact: selenium
 
- - stage: Deployment     
+- stage: Deployment     
   - deployment: UITests
     displayName: 'UI Tests'
     pool:
