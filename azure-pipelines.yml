@@ -118,7 +118,7 @@ stages:
           steps:
           - download: current
             displayName: Download selenium
-            artifact: selenium
+            artifact: drop-selenium
           - task: Bash@3
             displayName: 'Install Selenium'
             inputs:
