@@ -140,11 +140,9 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                sudo mkdir /var/logs
-                cd $(Pipeline.Workspace)/drop-selenium
-                echo $(date "+%Y-%m-%d %H:%M:%S") >> /var/logs/selenium-test.log
-                python3 login.py >> /var/logs/selenium-test.log
-                cat /var/logs/selenium-test.log
+                python3 /home/devopsagent/myagent/_work/1/selenium/login.py > /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
+                cat /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
+                sudo mv /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log /var/log
 
 - stage: Run_Tests
   displayName: Run App Tests
