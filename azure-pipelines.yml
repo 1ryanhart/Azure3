@@ -83,7 +83,8 @@ stages:
   jobs:
   - job: Build
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-18.04'
+      name: myAgentPool
     steps:
     - task: Bash@3
       displayName: Copy selenium file for publishing
