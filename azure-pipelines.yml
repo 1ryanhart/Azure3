@@ -78,13 +78,12 @@ stages:
         commandOptions: project3cicd
 
 
-- stage: PostDeployment
-  displayName: 'Post-deployment'
+ stage: Build
   jobs:
   - job: Build
     pool:
-      vmImage: 'ubuntu-18.04'
-      name: myAgentPool
+      vmImage: 'ubuntu-latest'
+      name: 'myAgentPool'
     steps:
     - task: Bash@3
       displayName: Copy selenium file for publishing
@@ -94,6 +93,8 @@ stages:
     - publish: $(Build.ArtifactStagingDirectory)
       displayName: 'Upload Selenium File'
       artifact: selenium
+
+ - stage: Deployment     
   - deployment: UITests
     displayName: 'UI Tests'
     pool:
