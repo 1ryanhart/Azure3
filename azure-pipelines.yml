@@ -85,14 +85,24 @@ stages:
       vmImage: 'ubuntu-latest'
       name: 'myAgentPool'
     steps:
-    - task: Bash@3
-      displayName: Copy selenium file for publishing
+    # - task: Bash@3
+    #   displayName: Copy selenium file for publishing
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: cp $(System.DefaultWorkingDirectory)/automatedtesting/selenium/login.py $(Build.ArtifactStagingDirectory)
+    # - publish: $(Build.ArtifactStagingDirectory)
+    #   displayName: 'Upload Selenium File'
+    #   artifact: selenium
+    - task: ArchiveFiles@2
+      displayName: 'Archive Selenium tests'
       inputs:
-        targetType: 'inline'
-        script: cp $(System.DefaultWorkingDirectory)/automatedtesting/selenium/login.py $(Build.ArtifactStagingDirectory)
-    - publish: $(Build.ArtifactStagingDirectory)
-      displayName: 'Upload Selenium File'
-      artifact: selenium
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/selenium'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-selenium-tests.zip'
+    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-selenium-tests.zip
+      displayName: 'Upload Selenium Tests'
+      artifact: drop-selenium
 
 - stage: Deployment     
   jobs:
@@ -123,8 +133,8 @@ stages:
                 sudo apt-get install -y chromium-chromedriver
                 pip3 install selenium
                 export PATH=$PATH:/usr/lib/chromium-browser/
-                # cd $(Pipeline.Workspace)/drop-selenium
-                # unzip -o $(Pipeline.Workspace)/drop-selenium/$(Build.BuildId)-selenium-tests -d .
+                cd $(Pipeline.Workspace)/drop-selenium
+                unzip -o $(Pipeline.Workspace)/drop-selenium/$(Build.BuildId)-selenium-tests -d .
           - task: Bash@3
             displayName: 'Run Selenium Tests'
             inputs:
