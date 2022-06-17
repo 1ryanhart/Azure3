@@ -81,21 +81,32 @@ stages:
 - stage: PostDeployment
   displayName: 'Post-deployment'
   jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Bash@3
+      displayName: Copy selenium file for publishing
+      inputs:
+        targetType: 'inline'
+        script: cp $(System.DefaultWorkingDirectory)/automatedtesting/selenium/login.py $(Build.ArtifactStagingDirectory)
+    - publish: $(Build.ArtifactStagingDirectory)
+      displayName: 'Upload Selenium File'
+      artifact: selenium
   - deployment: UITests
     displayName: 'UI Tests'
     pool:
       vmImage: 'ubuntu-18.04'
       name: myAgentPool
     environment:  'TEST'
-    strategy:
+strategy:
       runOnce:
         deploy:
           steps:
           - download: current
-            displayName: 'Download Selenium'
-            artifact: drop-selenium
+            displayName: Download selenium
+            artifact: selenium
           - task: Bash@3
-            displayName: 'Install Selenium'
             inputs:
               targetType: 'inline'
               script: |
@@ -104,22 +115,39 @@ stages:
                 sudo apt-get upgrade -y
                 sudo apt-get install python3-pip -y
                 sudo apt-get install unzip -y
+                sudo apt-get install libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev
                 sudo apt-get install -y chromium-browser
-                sudo apt-get install -y chromium-chromedriver
-                pip3 install selenium
-                export PATH=$PATH:/usr/lib/chromium-browser/
-                cd $(Pipeline.Workspace)/drop-selenium
-                unzip -o $(Pipeline.Workspace)/drop-selenium/$(Build.BuildId)-selenium-tests -d .
+                # python3 -m pip install --upgrade pip
           - task: Bash@3
-            displayName: 'Run Selenium Tests'
+            displayName: Install and setup Chromedriver
             inputs:
               targetType: 'inline'
               script: |
-                sudo mkdir /var/logs
-                cd $(Pipeline.Workspace)/drop-selenium
-                echo $(date "+%Y-%m-%d %H:%M:%S") >> /var/logs/selenium-test.log
-                python3 login.py >> /var/logs/selenium-test.log
-                cat /var/logs/selenium-test.log
+                #! /bin/bash
+                
+                # Remove previous chromedriver zip file
+                rm chromedriver_linux64.zip
+                
+                # Get the version of Chromedriver selenium tests are written for
+                wget https://chromedriver.storage.googleapis.com/95.0.4638.69/chromedriver_linux64.zip
+                # wget https://chromedriver.storage.googleapis.com/96.0.4664.45/chromedriver_linux64.zip
+                unzip chromedriver_linux64.zip
+                sudo mv chromedriver /usr/bin/chromedriver
+                sudo chown root:root /usr/bin/chromedriver
+                sudo chmod +x /usr/bin/chromedriver
+                pip3 install selenium
+                echo $PWD
+                echo $PATH
+                chromedriver -v
+                # pip install --upgrade pip
+          - task: Bash@3
+            displayName: Run Selenium Tests
+            inputs:
+              targetType: 'inline'
+              script: |
+                python3 /home/skadmin/azagent/_work/1/selenium/login.py > /home/skadmin/azagent/_work/1/selenium/seleniumtestrun.log
+                cat /home/skadmin/azagent/_work/1/selenium/seleniumtestrun.log
+                sudo mv /home/skadmin/azagent/_work/1/selenium/seleniumtestrun.log /var/log
 
 - stage: Run_Tests
   displayName: Run App Tests
