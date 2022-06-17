@@ -51,7 +51,7 @@ stages:
         command: init
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         backendType: azurerm
-        backendServiceArm: 'UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
+        backendServiceArm: 'UdacityDS - 09 (5575e80b-f0da-4822-a386-38229fd50c58)'
         backendAzureRmResourceGroupLocation: eastus
         backendAzureRmResourceGroupName: Azuredevops
         backendAzureRmStorageAccountName: mystorage198570
@@ -64,7 +64,7 @@ stages:
       inputs:
         command: plan
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
+        environmentServiceName: 'UdacityDS - 09 (5575e80b-f0da-4822-a386-38229fd50c58)'
 
         commandOptions: -out project3cicd
     ########## Step 4. Run the terraform apply
@@ -74,7 +74,7 @@ stages:
         provider: 'azurerm'
         command: apply
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'UdacityDS - 26 (d69af47e-53dd-448d-a185-9d8bc0ffb988)'
+        environmentServiceName: 'UdacityDS - 09 (5575e80b-f0da-4822-a386-38229fd50c58)'
         commandOptions: project3cicd
 
 
