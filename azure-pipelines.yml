@@ -96,10 +96,54 @@ stages:
       displayName: 'Upload Selenium Tests'
       artifact: selenium
 
-- stage: Deployment     
+# - stage: Deployment     
+#   jobs:
+#   - deployment: UITests
+#     displayName: 'UI Tests'
+#     pool:
+#       vmImage: 'ubuntu-18.04'
+#       name: myAgentPool
+#     environment:  'TEST'
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - download: current
+#             displayName: Download selenium
+#             artifact: selenium
+#           - task: Bash@3
+#             displayName: 'Install Selenium'
+#             inputs:
+#               targetType: 'inline'
+#               script: |
+#                 #! /bin/bash
+                
+#                 sudo apt-get upgrade -y
+#                 sudo apt-get install python3-pip -y
+#                 sudo apt-get install unzip -y
+#                 sudo apt-get install -y chromium-browser
+#                 sudo apt-get install -y chromium-chromedriver
+#                 pip3 install selenium
+#                 export PATH=$PATH:/usr/lib/chromium-browser/
+#                 cd $(Pipeline.Workspace)/selenium
+#                 unzip -o $(Pipeline.Workspace)/selenium/$(Build.BuildId)-selenium-tests -d .
+#           - task: Bash@3
+#             displayName: 'Run Selenium Tests'
+#             inputs:
+#               targetType: 'inline'
+#               script: |
+#                 python3 /home/devopsagent/myagent/_work/1/selenium/login.py > /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
+#                 cat /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
+#                 sudo mv /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log /var/log
+
+
+#########START OF POSTMAN TESTS - commenting out as failing due to 'too many requests' ##########
+
+- stage: Run_Tests
+  displayName: Run App Tests
   jobs:
-  - deployment: UITests
-    displayName: 'UI Tests'
+  - job: UI Tests with Selenium
+    displayName: UI Tests
     pool:
       vmImage: 'ubuntu-18.04'
       name: myAgentPool
@@ -136,12 +180,6 @@ stages:
                 cat /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
                 sudo mv /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log /var/log
 
-
-#########START OF POSTMAN TESTS - commenting out as failing due to 'too many requests' ##########
-
-- stage: Run_Tests
-  displayName: Run App Tests
-  jobs:
   - job: JMeterTests
     displayName: JMeter Tests
     pool:
