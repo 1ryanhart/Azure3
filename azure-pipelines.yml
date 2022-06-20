@@ -144,6 +144,9 @@ stages:
   jobs:
   - job: JMeterTests
     displayName: JMeter Tests
+    pool:
+      name: myAgentPool
+      vmImage: $(vmImageName)
     steps:
       - task: Bash@3
         displayName: Install JMeter
