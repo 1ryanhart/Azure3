@@ -236,7 +236,7 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: '**/JUnitReport*.xml'
+        testResultsFiles: '**/*.xml'
         testRunTitle: 'Publish test results'
         searchFolder: 'automatedtesting/postman'
 
