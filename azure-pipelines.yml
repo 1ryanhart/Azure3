@@ -157,14 +157,19 @@ stages:
             wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz -O jmeter.tgz
             tar -xzvf jmeter.tgz
       - task: Bash@3
-        displayName: Run JMeter stress
+        displayName: Run JMeter tests
         inputs:
           targetType: 'inline'
           script: |
-            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/Starter.jmx \
+            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/stress.jmx \
               -l automatedtesting/jmeter/stress-results.csv \
               -e -f -o automatedtesting/jmeter/stress-test-report.html \
               -j automatedtesting/jmeter/stress-test.log
+
+            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/endurance.jmx \
+              -l automatedtesting/jmeter/endurance-results.csv \
+              -e -f -o automatedtesting/jmeter/endurance-test-report.html \
+              -j automatedtesting/jmeter/endurance-test.log
 #   - job: RunPostmanTests
 #     pool:
 #       name: myAgentPool
