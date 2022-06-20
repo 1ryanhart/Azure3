@@ -51,7 +51,7 @@ stages:
         command: init
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         backendType: azurerm
-        backendServiceArm: 'UdacityDS - 09 (5575e80b-f0da-4822-a386-38229fd50c58)'
+        backendServiceArm: 'UdacityDS - 22 (935af078-1669-488b-ae1c-5792c0fdb75d)'
         backendAzureRmResourceGroupLocation: eastus
         backendAzureRmResourceGroupName: Azuredevops
         backendAzureRmStorageAccountName: mystorage198570
@@ -64,7 +64,7 @@ stages:
       inputs:
         command: plan
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'UdacityDS - 09 (5575e80b-f0da-4822-a386-38229fd50c58)'
+        environmentServiceName: 'UdacityDS - 22 (935af078-1669-488b-ae1c-5792c0fdb75d)'
 
         commandOptions: -out project3cicd
     ########## Step 4. Run the terraform apply
@@ -74,7 +74,7 @@ stages:
         provider: 'azurerm'
         command: apply
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        environmentServiceName: 'UdacityDS - 09 (5575e80b-f0da-4822-a386-38229fd50c58)'
+        environmentServiceName: 'UdacityDS - 22 (935af078-1669-488b-ae1c-5792c0fdb75d)'
         commandOptions: project3cicd
 
 
@@ -209,7 +209,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription: 'UdacityDS - 09 (5575e80b-f0da-4822-a386-38229fd50c58)'
+              azureSubscription: 'UdacityDS - 22 (935af078-1669-488b-ae1c-5792c0fdb75d)'
               appName: 'myapplication198570-AppService'
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
