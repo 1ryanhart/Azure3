@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1655718904160,267,GET All Activities,200,OK,Endurance test 1-2,text,true,,3109,200,10,11,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=3,267,0,147
+1655718904163,269,GET All Activities,200,OK,Endurance test 1-7,text,true,,3109,200,9,10,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=6,269,0,151
+1655718904163,270,GET All Activities,200,OK,Endurance test 1-8,text,true,,3109,200,9,10,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=7,270,0,149
+1655718904162,276,GET All Activities,200,OK,Endurance test 1-6,text,true,,3109,200,7,7,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=4,276,0,153
+1655718904161,282,GET All Activities,200,OK,Endurance test 1-3,text,true,,3109,200,6,6,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=2,282,0,153
+1655718904167,284,GET All Activities,200,OK,Endurance test 1-10,text,true,,3109,200,5,5,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=9,284,0,148
+1655718904162,289,GET All Activities,200,OK,Endurance test 1-1,text,true,,3109,200,5,5,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=1,289,0,157
+1655718904162,292,GET All Activities,200,OK,Endurance test 1-4,text,true,,3109,200,3,3,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=5,292,0,153
+1655718904162,292,GET All Activities,200,OK,Endurance test 1-5,text,true,,3109,200,3,3,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=8,292,0,156
+1655718904166,294,GET All Activities,200,OK,Endurance test 1-9,text,true,,3109,201,1,1,http://myapplication198570-appservice.azurewebsites.net/api/activities?page=10,294,0,153
