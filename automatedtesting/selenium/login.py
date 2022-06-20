@@ -23,7 +23,8 @@ def add_to_cart():
     items = driver.find_elements_by_css_selector("button.btn_primary.btn_inventory")
 
     for item in items:
-        print('Adding item to the cart')
+        product = item.find_element_by_css_selector('.inventory_item_name').text
+        print(product + ' added to the cart')
         item.click()
     cart_label = driver.find_element_by_css_selector('.shopping_cart_badge').text
     assert cart_label == '6'
@@ -35,7 +36,8 @@ def remove_from_cart():
     items = driver.find_elements_by_css_selector("button.cart_button")
 
     for item in items:
-        print('Removing item to the cart')
+        product = item.find_element_by_css_selector('.inventory_item_name').text
+        print(product +' removed from the cart')
         item.click()
     
 
