@@ -232,18 +232,14 @@ stages:
       inputs:
         script: 'newman run automatedtesting/postman/DV.postman_collection.json -e automatedtesting/postman/project3.postman_environment.json --reporters cli,junit --reporter-junit-export TestResults/result-data-validation-test.xml'
         workingDirectory: '$(System.DefaultWorkingDirectory)'
-        
+
     - task: PublishTestResults@2
-      displayName: Publish Postman Test Results
       inputs:
-        testResultsFiles: '**/*.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)/TestResults'
-                - task: PublishTestResults@2
-              inputs:
-                testResultsFormat: 'JUnit'
-                testResultsFiles: '**/JUnitReport*.xml'
-                testRunTitle: 'Publish test results'
-                searchFolder: 'automatedtesting/postman'
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/JUnitReport*.xml'
+        testRunTitle: 'Publish test results'
+        searchFolder: 'automatedtesting/postman'
+
 
 
 
