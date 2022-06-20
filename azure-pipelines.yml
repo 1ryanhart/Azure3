@@ -139,9 +139,29 @@ stages:
 
 #########START OF POSTMAN TESTS - commenting out as failing due to 'too many requests' ##########
 
-# - stage: Run_Tests
-#   displayName: Run App Tests
-#   jobs:
+- stage: Run_Tests
+  displayName: Run App Tests
+  jobs:
+  - job: JMeterTests
+    displayName: JMeter Tests
+    steps:
+      - task: Bash@3
+        displayName: Install JMeter
+        inputs:
+          targetType: 'inline'
+          script: |
+            sudo apt-get install openjdk-11-jre-headless -y
+            wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz -O jmeter.tgz
+            tar -xzvf jmeter.tgz
+      - task: Bash@3
+        displayName: Run JMeter stress
+        inputs:
+          targetType: 'inline'
+          script: |
+            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/Starter.jmx \
+              -l automatedtesting/jmeter/stress-results.csv \
+              -e -f -o automatedtesting/jmeter/stress-test-report.html \
+              -j automatedtesting/jmeter/stress-test.log
 #   - job: RunPostmanTests
 #     pool:
 #       name: myAgentPool
@@ -238,5 +258,6 @@ stages:
   #               sudo apt-get install -y chromium-browser
   #               pip3 install selenium
   #               export PATH=$PATH:/usr/lib/chromium-browser/
+  
 
 
