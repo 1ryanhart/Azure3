@@ -211,16 +211,16 @@ stages:
     pool:
       name: myAgentPool
       vmImage: $(vmImageName)
-    # steps:
-    # - task: CmdLine@2
-    #   displayName: Install Newman
-    #   inputs:
-    #     script: |
-    #       sudo apt update
-    #       sudo apt install -y nodejs npm
-    #       sudo npm install -g newman
-    #       sudo npm install -g newman-reporter-junitfull
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)'
+    steps:
+    - task: CmdLine@2
+      displayName: Install Newman
+      inputs:
+        script: |
+          sudo apt update
+          sudo apt install -y nodejs npm
+          sudo npm install -g newman
+          sudo npm install -g newman-reporter-junitfull
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
     # - task: CmdLine@2
     #   displayName: Run Regression Test Suite
     #   continueOnError: true
