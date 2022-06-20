@@ -96,54 +96,10 @@ stages:
       displayName: 'Upload Selenium Tests'
       artifact: selenium
 
-# - stage: Deployment     
-#   jobs:
-#   - deployment: UITests
-#     displayName: 'UI Tests'
-#     pool:
-#       vmImage: 'ubuntu-18.04'
-#       name: myAgentPool
-#     environment:  'TEST'
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - download: current
-#             displayName: Download selenium
-#             artifact: selenium
-#           - task: Bash@3
-#             displayName: 'Install Selenium'
-#             inputs:
-#               targetType: 'inline'
-#               script: |
-#                 #! /bin/bash
-                
-#                 sudo apt-get upgrade -y
-#                 sudo apt-get install python3-pip -y
-#                 sudo apt-get install unzip -y
-#                 sudo apt-get install -y chromium-browser
-#                 sudo apt-get install -y chromium-chromedriver
-#                 pip3 install selenium
-#                 export PATH=$PATH:/usr/lib/chromium-browser/
-#                 cd $(Pipeline.Workspace)/selenium
-#                 unzip -o $(Pipeline.Workspace)/selenium/$(Build.BuildId)-selenium-tests -d .
-#           - task: Bash@3
-#             displayName: 'Run Selenium Tests'
-#             inputs:
-#               targetType: 'inline'
-#               script: |
-#                 python3 /home/devopsagent/myagent/_work/1/selenium/login.py > /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
-#                 cat /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
-#                 sudo mv /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log /var/log
-
-
-#########START OF POSTMAN TESTS - commenting out as failing due to 'too many requests' ##########
-
-- stage: Run_Tests
-  displayName: Run App Tests
+- stage: Deployment     
   jobs:
-  - job: UI Tests with Selenium
-    displayName: UI Tests
+  - deployment: UITests
+    displayName: 'UI Tests'
     pool:
       vmImage: 'ubuntu-18.04'
       name: myAgentPool
@@ -180,66 +136,8 @@ stages:
                 cat /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
                 sudo mv /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log /var/log
 
-  - job: JMeterTests
-    displayName: JMeter Tests
-    pool:
-      name: myAgentPool
-      vmImage: $(vmImageName)
-    steps:
-      - task: Bash@3
-        displayName: Install JMeter
-        inputs:
-          targetType: 'inline'
-          script: |
-            sudo apt-get install openjdk-11-jre-headless -y
-            wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz -O jmeter.tgz
-            tar -xzvf jmeter.tgz
-      - task: Bash@3
-        displayName: Run JMeter tests
-        inputs:
-          targetType: 'inline'
-          script: |
-            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/stress.jmx \
-              -l automatedtesting/jmeter/stress-results.csv \
-              -e -f -o automatedtesting/jmeter/stress-test-report.html \
-              -j automatedtesting/jmeter/stress-test.log
 
-            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/endurance.jmx \
-              -l automatedtesting/jmeter/endurance-results.csv \
-              -e -f -o automatedtesting/jmeter/endurance-test-report.html \
-              -j automatedtesting/jmeter/endurance-test.log
-#   - job: RunPostmanTests
-#     pool:
-#       name: myAgentPool
-#       vmImage: $(vmImageName)
-#     steps:
-#     - task: CmdLine@2
-#       displayName: Install Newman
-#       inputs:
-#         script: |
-#           sudo apt update
-#           sudo apt install -y nodejs npm
-#           sudo npm install -g newman
-#           sudo npm install -g newman-reporter-junitfull
-#         workingDirectory: '$(System.DefaultWorkingDirectory)'
-#     - task: CmdLine@2
-#       displayName: Run Regression Test Suite
-#       continueOnError: true
-#       inputs:
-#         script: 'newman run automatedtesting/postman/Regression.postman_collection.json -e automatedtesting/postman/project3.postman_environment.json --reporters cli,junit --reporter-junit-export TestResults/result-regression-test.xml'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)'
-#     - task: CmdLine@2
-#       displayName: Run Data Validation Test Suite
-#       inputs:
-#         script: 'newman run automatedtesting/postman/DV.postman_collection.json -e automatedtesting/postman/project3.postman_environment.json --reporters cli,junit --reporter-junit-export TestResults/result-data-validation-test.xml'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)'
-#     - task: PublishTestResults@2
-#       displayName: Publish Postman Test Results
-#       inputs:
-#         testResultsFiles: '**/*.xml'
-#         searchFolder: '$(System.DefaultWorkingDirectory)/TestResults'
 
-#########END OF POSTMAN TESTS - commenting out as failing due to 'too many requests' ##########
 
 - stage: Build
   jobs:
@@ -305,5 +203,72 @@ stages:
   #               pip3 install selenium
   #               export PATH=$PATH:/usr/lib/chromium-browser/
   
+
+
+- stage: Run_Tests
+  displayName: Run App Tests
+  jobs:
+  - job: JMeterTests
+    displayName: JMeter Tests
+    pool:
+      name: myAgentPool
+      vmImage: $(vmImageName)
+    steps:
+      - task: Bash@3
+        displayName: Install JMeter
+        inputs:
+          targetType: 'inline'
+          script: |
+            sudo apt-get install openjdk-11-jre-headless -y
+            wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz -O jmeter.tgz
+            tar -xzvf jmeter.tgz
+      - task: Bash@3
+        displayName: Run JMeter tests
+        inputs:
+          targetType: 'inline'
+          script: |
+            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/stress.jmx \
+              -l automatedtesting/jmeter/stress-results.csv \
+              -e -f -o automatedtesting/jmeter/stress-test-report.html \
+              -j automatedtesting/jmeter/stress-test.log
+
+            apache-jmeter-5.4.1/bin/jmeter -n -t automatedtesting/jmeter/endurance.jmx \
+              -l automatedtesting/jmeter/endurance-results.csv \
+              -e -f -o automatedtesting/jmeter/endurance-test-report.html \
+              -j automatedtesting/jmeter/endurance-test.log
+
+    #########START OF POSTMAN TESTS - commenting out as failing due to 'too many requests' ##########      
+#   - job: RunPostmanTests
+#     pool:
+#       name: myAgentPool
+#       vmImage: $(vmImageName)
+#     steps:
+#     - task: CmdLine@2
+#       displayName: Install Newman
+#       inputs:
+#         script: |
+#           sudo apt update
+#           sudo apt install -y nodejs npm
+#           sudo npm install -g newman
+#           sudo npm install -g newman-reporter-junitfull
+#         workingDirectory: '$(System.DefaultWorkingDirectory)'
+#     - task: CmdLine@2
+#       displayName: Run Regression Test Suite
+#       continueOnError: true
+#       inputs:
+#         script: 'newman run automatedtesting/postman/Regression.postman_collection.json -e automatedtesting/postman/project3.postman_environment.json --reporters cli,junit --reporter-junit-export TestResults/result-regression-test.xml'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)'
+#     - task: CmdLine@2
+#       displayName: Run Data Validation Test Suite
+#       inputs:
+#         script: 'newman run automatedtesting/postman/DV.postman_collection.json -e automatedtesting/postman/project3.postman_environment.json --reporters cli,junit --reporter-junit-export TestResults/result-data-validation-test.xml'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)'
+#     - task: PublishTestResults@2
+#       displayName: Publish Postman Test Results
+#       inputs:
+#         testResultsFiles: '**/*.xml'
+#         searchFolder: '$(System.DefaultWorkingDirectory)/TestResults'
+
+#########END OF POSTMAN TESTS - commenting out as failing due to 'too many requests' ##########
 
 
