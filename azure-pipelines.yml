@@ -94,7 +94,7 @@ stages:
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-selenium-tests.zip'
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-selenium-tests.zip
       displayName: 'Upload Selenium Tests'
-      artifact: drop-selenium
+      artifact: selenium
 
 - stage: Deployment     
   jobs:
@@ -110,7 +110,7 @@ stages:
           steps:
           - download: current
             displayName: Download selenium
-            artifact: drop-selenium
+            artifact: selenium
           - task: Bash@3
             displayName: 'Install Selenium'
             inputs:
@@ -125,8 +125,8 @@ stages:
                 sudo apt-get install -y chromium-chromedriver
                 pip3 install selenium
                 export PATH=$PATH:/usr/lib/chromium-browser/
-                cd $(Pipeline.Workspace)/drop-selenium
-                unzip -o $(Pipeline.Workspace)/drop-selenium/$(Build.BuildId)-selenium-tests -d .
+                cd $(Pipeline.Workspace)/selenium
+                unzip -o $(Pipeline.Workspace)/selenium/$(Build.BuildId)-selenium-tests -d .
           - task: Bash@3
             displayName: 'Run Selenium Tests'
             inputs:
