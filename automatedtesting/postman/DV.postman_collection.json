@@ -49,7 +49,7 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Successful response\", function () {\r",
-							"\tpm.expect(pm.response.text()).to.include(\"updated job title\");\r",
+							"\tpm.expect(pm.response.text()).to.include(\"updatedAt\");\r",
 							"});"
 						],
 						"type": "text/javascript"
