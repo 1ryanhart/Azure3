@@ -7,53 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Create Employee",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"success\");",
-							"});",
-							"var json = pm.response.json();",
-							"pm.environment.set(\"id\", json.data.id);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"{{name}}\",\n    \"salary\": \"{{salary}}\",\n    \"age\": \"{{age}}\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://dummy.restapiexample.com/api/v1/create",
-					"protocol": "https",
-					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"create"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Employees",
+			"name": "Get All Users",
 			"event": [
 				{
 					"listen": "test",
@@ -89,6 +43,50 @@
 			"response": []
 		},
 		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful response\", function () {",
+							"    pm.expect(pm.response.text()).to.include({{name}});",
+							"});",
+							"var json = pm.response.json();",
+							"pm.environment.set(\"id\", json.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{name}}\",\n    \"job\": \"{{job}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Update Employee",
 			"event": [
 				{
@@ -96,7 +94,7 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Successful response\", function () {\r",
-							"\tpm.expect(pm.response.text()).to.include(\"success\");\r",
+							"\tpm.expect(pm.response.text()).to.include(\"updatedAt\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -108,21 +106,19 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"age\" : {{age}}\r\n}"
+					"raw": "{\r\n    \"job\" : \"new job\"\r\n}"
 				},
 				"url": {
-					"raw": "https://dummy.restapiexample.com/api/v1/update/1",
+					"raw": "https://reqres.in/api/users/{{id}}",
 					"protocol": "https",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"reqres",
+						"in"
 					],
 					"path": [
 						"api",
-						"v1",
-						"update",
-						"1"
+						"users",
+						"{{id}}"
 					]
 				}
 			},
@@ -135,8 +131,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Successful response\", function () {\r",
-							"\tpm.expect(pm.response.text()).to.include(\"success\");\r",
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -147,18 +143,16 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://dummy.restapiexample.com/api/v1/delete/2",
+					"raw": "https://reqres.in/api/users/{{id}}",
 					"protocol": "https",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"reqres",
+						"in"
 					],
 					"path": [
 						"api",
-						"v1",
-						"delete",
-						"2"
+						"users",
+						"{{id}}"
 					]
 				}
 			},

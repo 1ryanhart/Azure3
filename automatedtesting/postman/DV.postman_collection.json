@@ -7,14 +7,14 @@
 	},
 	"item": [
 		{
-			"name": "Get Employees By ID",
+			"name": "Get User By ID",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Tiger Nixon\");",
+							"    pm.expect(pm.response.text()).to.include(\"janet.weaver@reqres.in\");",
 							"});",
 							""
 						],
@@ -26,32 +26,30 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://dummy.restapiexample.com/api/v1/employee/1",
+					"raw": "https://reqres.in/api/users/2",
 					"protocol": "https",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"reqres",
+						"in"
 					],
 					"path": [
 						"api",
-						"v1",
-						"employee",
-						"1"
+						"users",
+						"2"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Update Employee",
+			"name": "Update User",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"pm.test(\"Successful response\", function () {\r",
-							"\tpm.expect(pm.response.text()).to.include(\"Successfully! Record has been updated\");\r",
+							"\tpm.expect(pm.response.text()).to.include(\"updated job title\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -63,38 +61,33 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"age\" : {{age}}\r\n}"
+					"raw": "{\r\n    \"job\" : \"updated job title\"\r\n}"
 				},
 				"url": {
-					"raw": "https://dummy.restapiexample.com/api/v1/update/1",
+					"raw": "https://reqres.in/api/users/{{id}}",
 					"protocol": "https",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"reqres",
+						"in"
 					],
 					"path": [
 						"api",
-						"v1",
-						"update",
-						"1"
+						"users",
+						"{{id}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get All Employees",
+			"name": "Get All Users",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"success\");",
-							"});",
-							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Successfully! All records has been fetched\");",
+							"    pm.expect(pm.response.text()).to.include(\"12\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -105,17 +98,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://dummy.restapiexample.com/api/v1/employees",
+					"raw": "https://reqres.in/api/users",
 					"protocol": "https",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"reqres",
+						"in"
 					],
 					"path": [
 						"api",
-						"v1",
-						"employees"
+						"users"
 					]
 				}
 			},
