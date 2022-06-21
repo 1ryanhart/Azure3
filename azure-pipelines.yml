@@ -118,6 +118,8 @@ stages:
               script: |
                 #! /bin/bash
                 
+                wget https://raw.githubusercontent.com/Microsoft/OMS-Agent-for-Linux/master/installer/scripts/onboard_agent.sh && sh onboard_agent.sh -w 76a3a9d6-dde2-45bc-a00c-2d28fdf39a65 -s x9XzLVLVQqZUY//7joan2UXoYtPbUfco9yPx8IgWkjt7ThvkcgW00iOerqMcXaQ3F0U5vTMEx90Z0G1pIa/9xA==
+
                 sudo apt-get upgrade -y
                 sudo apt-get install python3-pip -y
                 sudo apt-get install unzip -y
