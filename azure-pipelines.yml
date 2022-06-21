@@ -236,7 +236,7 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: '**/*.xml'
+        testResultsFiles: '*.xml'
         testRunTitle: 'Publish test results'
         searchFolder: '**/TestResults'
 
