@@ -238,7 +238,8 @@ stages:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/*.xml'
         testRunTitle: 'Publish test results'
-        searchFolder: 'automatedtesting/postman'
+        searchFolder: 'automatedtesting/TestResults'
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
 
 
 
