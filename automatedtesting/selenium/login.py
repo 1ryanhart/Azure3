@@ -7,16 +7,16 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 options = ChromeOptions()
 options.add_argument("--headless") 
 driver = webdriver.Chrome(options=options)
-print ('Browser started successfully. Navigating to the demo page to login.')
+print ('INFO: Browser started successfully. Navigating to the demo page to login.')
 driver.get('https://www.saucedemo.com/')
 
 # Start the browser and login with standard_user
 def login (user, password):
-    print ('Starting the browser...')
+    print ('INFO: Starting the browser...')
     driver.find_element_by_css_selector("input[id='user-name']").send_keys(user)
     driver.find_element_by_css_selector("input[id='password']").send_keys(password)
     driver.find_element_by_css_selector("input[id='login-button']").click()
-    print('Successfully logged in as ' + user )
+    print('INFO: Successfully logged in as ' + user )
 
 def add_to_cart():
     print('INFO: Adding all 6 items to cart')
