@@ -3,28 +3,38 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
+import logging
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 options = ChromeOptions()
 options.add_argument("--headless") 
 driver = webdriver.Chrome(options=options)
 print ('INFO: Browser started successfully. Navigating to the demo page to login.')
+logging.info('INFO: Browser started successfully. Navigating to the demo page to login.')
 driver.get('https://www.saucedemo.com/')
 
 # Start the browser and login with standard_user
 def login (user, password):
     print ('INFO: Starting the browser...')
+    logging.info('INFO: Starting the browser...')
     driver.find_element_by_css_selector("input[id='user-name']").send_keys(user)
     driver.find_element_by_css_selector("input[id='password']").send_keys(password)
     driver.find_element_by_css_selector("input[id='login-button']").click()
     print('INFO: Successfully logged in as ' + user )
+    logging.info('INFO: Successfully logged in as ' + user)
 
 def add_to_cart():
     print('INFO: Adding all 6 items to cart')
+    logging.info('INFO: Adding all 6 items to cart')
     items = driver.find_elements_by_css_selector("button.btn_primary.btn_inventory")
 
     for item in items:
         product = item.get_property("name")
         print('INFO: ' + product + ' added to the cart')
+        logging.info('INFO: ' + product + ' added to the cart')
         item.click()
     cart_label = driver.find_element_by_css_selector('.shopping_cart_badge').text
     assert cart_label == '6'
@@ -38,6 +48,7 @@ def remove_from_cart():
     for item in items:
         product = item.get_property("name")
         print('INFO: '+ product +' removed from the cart')
+        logging.info('INFO: '+ product +' removed from the cart')
         item.click()
     
 
