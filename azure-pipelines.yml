@@ -133,7 +133,7 @@ stages:
               targetType: 'inline'
               script: |
                 # python3 /home/devopsagent/myagent/_work/1/selenium/login.py > /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
-                python3 /home/devopsagent/myagent/_work/1/selenium/login.py | tee -a /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log.txt
+                python3 /home/devopsagent/myagent/_work/1/selenium/login.py | tee -a /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
                 cat /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log
                 sudo cp /home/devopsagent/myagent/_work/1/selenium/seleniumtestrun.log /var/log
 
